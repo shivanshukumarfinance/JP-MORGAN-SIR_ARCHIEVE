@@ -372,6 +372,55 @@ function initNavigation() {
 function initHeader() {
   $('#searchOpen')?.addEventListener('click', () => Modal.open('searchModal'));
   $('#settingsOpen')?.addEventListener('click', () => Modal.open('settingsModal'));
+
+  // ---- DASHBOARD HERO BUTTONS ----
+  const btnStart = $('#btnStartJourney');
+  const btnContinue = $('#btnContinue');
+
+  if (btnStart) {
+    btnStart.addEventListener('click', () => {
+      // Navigate to Day 1 of the 30-Day Academy
+      navigate('academy30');
+      setTimeout(() => {
+        if (typeof openDay === 'function') openDay(1);
+      }, 180);
+    });
+  }
+
+  if (btnContinue) {
+    btnContinue.addEventListener('click', () => {
+      // Find the next unfinished day (or lesson) and jump straight to it
+      let nextDay = null;
+      for (const d of DAYS_30) {
+        if (!state.completedDays[d.day]) { nextDay = d; break; }
+      }
+
+      if (nextDay) {
+        navigate('academy30');
+        setTimeout(() => {
+          if (typeof openDay === 'function') openDay(nextDay.day);
+        }, 180);
+        return;
+      }
+
+      // All days done — try an unfinished academy lesson
+      let nextLesson = null;
+      for (const l of ACADEMY_LESSONS) {
+        if (!state.completedLessons[l.id]) { nextLesson = l; break; }
+      }
+      if (nextLesson) {
+        navigate('academy');
+        setTimeout(() => {
+          if (typeof openLesson === 'function') openLesson(nextLesson.id);
+        }, 180);
+        return;
+      }
+
+      // Everything is complete
+      Toast.show('All caught up', 'You have completed every available lesson. Try the Quiz Center to test your mastery.');
+      navigate('quiz');
+    });
+  }
 }
 
 function initScrollTop() {
