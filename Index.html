@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Morgan Archive — An independent educational project on J. Pierpont Morgan and the history of Morgan banking.">
+<title>The Morgan Archive — The Life. The Power. The Empire.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" defer></script>
+</head>
+<body>
+
+<!-- ================== LOADING SCREEN ================== -->
+<div id="loader" class="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-mark">MA</div>
+    <div class="loader-title">THE MORGAN ARCHIVE</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<!-- ================== DISCLAIMER BANNER ================== -->
+<div class="disclaimer-banner" role="note">
+  Independent educational project — <strong>not affiliated with, sponsored by, or endorsed by JPMorgan Chase & Co.</strong>
+</div>
+
+<!-- ================== TOP BAR ================== -->
+<header class="topbar">
+  <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar-brand">
+    <span class="brand-mark">MA</span>
+    <span class="brand-name">THE MORGAN ARCHIVE</span>
+  </div>
+  <div class="topbar-actions">
+    <button class="icon-btn" id="searchOpen" aria-label="Search the archive">
+      <i data-lucide="search"></i>
+    </button>
+    <button class="icon-btn" id="settingsOpen" aria-label="Open settings">
+      <i data-lucide="settings"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ================== SIDEBAR ================== -->
+<aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+  <div class="sidebar-logo">
+    <div class="logo-box">
+      <span>THE</span>
+      <span>MORGAN</span>
+      <span>ARCHIVE</span>
+    </div>
+    <p class="logo-tag">THE LIFE. THE POWER. THE EMPIRE.</p>
+  </div>
+
+  <nav class="sidebar-nav" id="sidebarNav">
+    <a href="#dashboard" data-route="dashboard" class="nav-link active"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+    <a href="#life" data-route="life" class="nav-link"><i data-lucide="user"></i><span>Life</span></a>
+    <a href="#personal" data-route="personal" class="nav-link"><i data-lucide="heart"></i><span>Personal Life</span></a>
+    <a href="#character" data-route="character" class="nav-link"><i data-lucide="fingerprint"></i><span>Character</span></a>
+    <a href="#power" data-route="power" class="nav-link"><i data-lucide="network"></i><span>Power</span></a>
+    <a href="#academy" data-route="academy" class="nav-link"><i data-lucide="graduation-cap"></i><span>Banking Academy</span></a>
+    <a href="#empire" data-route="empire" class="nav-link"><i data-lucide="building-2"></i><span>Empire</span></a>
+    <a href="#deals" data-route="deals" class="nav-link"><i data-lucide="briefcase"></i><span>Major Deals</span></a>
+    <a href="#panic" data-route="panic" class="nav-link"><i data-lucide="alert-triangle"></i><span>Panic of 1907</span></a>
+    <a href="#decisions" data-route="decisions" class="nav-link"><i data-lucide="git-branch"></i><span>You Are Morgan</span></a>
+    <a href="#controversies" data-route="controversies" class="nav-link"><i data-lucide="scale"></i><span>Controversies</span></a>
+    <a href="#mind" data-route="mind" class="nav-link"><i data-lucide="brain"></i><span>Morgan's Mind</span></a>
+    <a href="#academy30" data-route="academy30" class="nav-link"><i data-lucide="calendar-check"></i><span>30-Day Academy</span></a>
+    <a href="#modern" data-route="modern" class="nav-link"><i data-lucide="landmark"></i><span>Modern JPMorgan</span></a>
+    <a href="#career" data-route="career" class="nav-link"><i data-lucide="trending-up"></i><span>Career Lab</span></a>
+    <a href="#glossary" data-route="glossary" class="nav-link"><i data-lucide="book-open"></i><span>Glossary</span></a>
+    <a href="#quiz" data-route="quiz" class="nav-link"><i data-lucide="help-circle"></i><span>Quiz Center</span></a>
+    <a href="#mastery" data-route="mastery" class="nav-link"><i data-lucide="award"></i><span>Mastery</span></a>
+    <a href="#morganai" data-route="morganai" class="nav-link"><i data-lucide="bot"></i><span>Morgan AI</span></a>
+    <a href="#sources" data-route="sources" class="nav-link"><i data-lucide="library"></i><span>Sources</span></a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="mini-progress">
+      <div class="mini-progress-label"><span>Progress</span><span id="sidebarProgress">0%</span></div>
+      <div class="mini-bar"><span id="sidebarProgressBar"></span></div>
+    </div>
+    <div class="mini-stats">
+      <div><span class="mini-num" id="sidebarXP">0</span><span class="mini-lbl">XP</span></div>
+      <div><span class="mini-num" id="sidebarStreak">0</span><span class="mini-lbl">STREAK</span></div>
+      <div><span class="mini-num" id="sidebarDay">1</span><span class="mini-lbl">DAY</span></div>
+    </div>
+  </div>
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ================== MAIN CONTENT ================== -->
+<main id="main" class="main">
+
+  <!-- ============ DASHBOARD ============ -->
+  <section id="section-dashboard" class="section active" data-section="dashboard">
+    <div class="hero">
+      <div class="hero-eyebrow">INDEPENDENT EDUCATIONAL ARCHIVE • EST. 2024</div>
+      <h1 class="hero-title">THE MORGAN ARCHIVE</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">THE LIFE. THE POWER. THE BANKING EMPIRE.</p>
+      <p class="hero-desc">Discover the man who helped shape American finance — and the financial system that followed.</p>
+      <div class="hero-actions">
+        <button class="btn btn-gold" id="btnStartJourney">BEGIN THE JOURNEY</button>
+        <button class="btn btn-ghost" id="btnContinue">CONTINUE LEARNING</button>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">LEARNING PROGRESS</div>
+        <div class="stat-value" id="statProgress">0%</div>
+        <div class="stat-bar"><span id="statProgressBar"></span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">CURRENT DAY</div>
+        <div class="stat-value" id="statDay">1</div>
+        <div class="stat-sub">of 30</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">TOTAL XP</div>
+        <div class="stat-value" id="statXP">0</div>
+        <div class="stat-sub" id="statLevel">Level 1</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">QUIZ SCORE</div>
+        <div class="stat-value" id="statQuiz">—</div>
+        <div class="stat-sub">best result</div>
+      </div>
+      <div class="stat-card stat-card--wide">
+        <div class="stat-label">MASTERY</div>
+        <div class="stat-value" id="statMastery">0</div>
+        <div class="stat-bar"><span id="statMasteryBar"></span></div>
+        <div class="stat-sub" id="statMasteryLevel">BEGINNER</div>
+      </div>
+    </div>
+
+    <div class="panel-row">
+      <div class="panel" id="continuePanel">
+        <div class="panel-head"><h3>CONTINUE LEARNING</h3></div>
+        <div class="panel-body" id="continueBody">
+          <p class="empty-state">No lessons completed yet. Start Day 1 to begin your journey.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>TODAY'S MORGAN INSIGHT</h3></div>
+        <div class="panel-body">
+          <p class="insight" id="insightText">Loading insight…</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h3>DID YOU KNOW?</h3></div>
+      <div class="panel-body">
+        <p class="insight" id="factText">Loading fact…</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h3>THE 30-DAY JOURNEY</h3>
+        <span class="panel-hint">Track your progress through the archive</span>
+      </div>
+      <div class="panel-body">
+        <div class="day-grid" id="dayGrid"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h3>THE MAN • THE BANKER • THE POWER • THE LEGACY</h3></div>
+      <div class="panel-body">
+        <div class="pillar-grid">
+          <div class="pillar" data-route="life">
+            <i data-lucide="user"></i>
+            <h4>The Man</h4>
+            <p>Born into a banking family, he became the most consequential financier of his age.</p>
+          </div>
+          <div class="pillar" data-route="academy">
+            <i data-lucide="briefcase"></i>
+            <h4>The Banker</h4>
+            <p>Underwriting, syndicates, and the architecture of modern investment banking.</p>
+          </div>
+          <div class="pillar" data-route="power">
+            <i data-lucide="network"></i>
+            <h4>The Power</h4>
+            <p>Railroads, steel, electricity, and the Panic of 1907 — how influence actually worked.</p>
+          </div>
+          <div class="pillar" data-route="modern">
+            <i data-lucide="landmark"></i>
+            <h4>The Legacy</h4>
+            <p>From Morgan banking to modern JPMorgan Chase — a historical evolution.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LIFE ============ -->
+  <section id="section-life" class="section" data-section="life">
+    <div class="section-header">
+      <h2>The Life of J. Pierpont Morgan</h2>
+      <p class="section-lede">An interactive timeline. Each event includes what happened, why it mattered, and a finance lesson.</p>
+    </div>
+    <div class="timeline" id="lifeTimeline"></div>
+  </section>
+
+  <!-- ============ PERSONAL LIFE ============ -->
+  <section id="section-personal" class="section" data-section="personal">
+    <div class="section-header">
+      <h2>Personal Life</h2>
+      <p class="section-lede">Family, marriage, personal interests, and social circles — grounded in historical evidence.</p>
+    </div>
+    <div class="panel-grid" id="personalGrid"></div>
+  </section>
+
+  <!-- ============ CHARACTER ============ -->
+  <section id="section-character" class="section" data-section="character">
+    <div class="section-header">
+      <h2>Who Was Morgan?</h2>
+      <p class="section-lede">A character analysis grounded in contemporary accounts. We separate evidence from interpretation.</p>
+    </div>
+    <div class="char-grid" id="charGrid"></div>
+  </section>
+
+  <!-- ============ POWER ============ -->
+  <section id="section-power" class="section" data-section="power">
+    <div class="section-header">
+      <h2>The Architecture of Power</h2>
+      <p class="section-lede">Why did Morgan become so influential? Click any node to explore the sources of his power.</p>
+    </div>
+    <div class="power-map" id="powerMap">
+      <div class="power-center" data-node="center"><span>J.P.<br>MORGAN</span></div>
+      <!-- Nodes injected by JS -->
+    </div>
+    <div class="panel" id="powerInfo">
+      <div class="panel-head"><h3 id="powerInfoTitle">Select a node</h3></div>
+      <div class="panel-body" id="powerInfoBody">
+        <p class="empty-state">Click on any connection in the power map above to understand its role.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BANKING ACADEMY ============ -->
+  <section id="section-academy" class="section" data-section="academy">
+    <div class="section-header">
+      <h2>Banking Academy</h2>
+      <p class="section-lede">A 20-lesson mini-course. Start simple. Finish confident.</p>
+    </div>
+    <div class="lesson-grid" id="academyGrid"></div>
+    <div class="lesson-viewer" id="lessonViewer" hidden></div>
+  </section>
+
+  <!-- ============ EMPIRE ============ -->
+  <section id="section-empire" class="section" data-section="empire">
+    <div class="section-header">
+      <h2>Morgan's Empire</h2>
+      <p class="section-lede">How capital flowed through railroads, industry, and government — and back into the firm.</p>
+    </div>
+    <div class="empire-flow" id="empireFlow"></div>
+    <div class="panel">
+      <div class="panel-head"><h3>Historical Context</h3></div>
+      <div class="panel-body">
+        <p>The diagram above illustrates the flow of capital and influence as documented in the historical record. No numeric values are invented; only qualitative relationships supported by scholarship are shown.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MAJOR DEALS ============ -->
+  <section id="section-deals" class="section" data-section="deals">
+    <div class="section-header">
+      <h2>Major Deals</h2>
+      <p class="section-lede">Case studies of historically significant transactions.</p>
+    </div>
+    <div class="deal-grid" id="dealGrid"></div>
+  </section>
+
+  <!-- ============ PANIC OF 1907 ============ -->
+  <section id="section-panic" class="section" data-section="panic">
+    <div class="section-header">
+      <h2>The Panic of 1907</h2>
+      <p class="section-lede">An immersive chapter on the crisis that reshaped American banking.</p>
+    </div>
+    <div class="panic-flow" id="panicFlow"></div>
+    <div class="panel-grid">
+      <div class="panel">
+        <div class="panel-head"><h3>What happened?</h3></div>
+        <div class="panel-body"><p>A financial panic unfolded in October 1907 after the failure of the Knickerbocker Trust Company. Confidence collapsed, and depositors rushed to withdraw funds.</p></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Why did it happen?</h3></div>
+        <div class="panel-body"><p>Historians point to a fragile trust-company system, speculative financing, and a lack of centralized lender-of-last-resort capacity in the United States at that time.</p></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Why did Morgan matter?</h3></div>
+        <div class="panel-body"><p>Morgan helped coordinate private liquidity, convene bankers, and organize support for threatened institutions. His role is documented in contemporary accounts.</p></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>What were the limitations?</h3></div>
+        <div class="panel-body"><p>Private intervention was ad hoc and depended on a small circle of financiers. It exposed structural weaknesses rather than solving them permanently.</p></div>
+      </div>
+      <div class="panel panel--full">
+        <div class="panel-head"><h3>How did it influence American banking?</h3></div>
+        <div class="panel-body"><p>The crisis is widely cited as a catalyst for monetary reform, culminating in the creation of the Federal Reserve System in 1913.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DECISION SIMULATOR ============ -->
+  <section id="section-decisions" class="section" data-section="decisions">
+    <div class="section-header">
+      <h2>You Are Morgan</h2>
+      <p class="section-lede">Educational decision simulator. Choices teach financial principles. Not a claim of Morgan's exact actions.</p>
+    </div>
+    <div class="panel" id="decisionPanel">
+      <div class="panel-head"><h3 id="decisionTitle">Scenario</h3></div>
+      <div class="panel-body" id="decisionBody"></div>
+    </div>
+  </section>
+
+  <!-- ============ CONTROVERSIES ============ -->
+  <section id="section-controversies" class="section" data-section="controversies">
+    <div class="section-header">
+      <h2>The Other Side of Morgan</h2>
+      <p class="section-lede">Historical facts, arguments in his favor, criticisms, and what historians debate.</p>
+    </div>
+    <div class="panel-grid" id="controversyGrid"></div>
+  </section>
+
+  <!-- ============ MORGAN'S MIND ============ -->
+  <section id="section-mind" class="section" data-section="mind">
+    <div class="section-header">
+      <h2>Morgan's Mind</h2>
+      <p class="section-lede">Decision challenges grounded in financial principles.</p>
+    </div>
+    <div class="panel" id="mindPanel">
+      <div class="panel-head"><h3 id="mindTitle">Challenge</h3></div>
+      <div class="panel-body" id="mindBody"></div>
+    </div>
+  </section>
+
+  <!-- ============ 30-DAY ACADEMY ============ -->
+  <section id="section-academy30" class="section" data-section="academy30">
+    <div class="section-header">
+      <h2>30-Day Academy</h2>
+      <p class="section-lede">Complete a lesson a day. Unlock sequentially, or jump ahead if you prefer.</p>
+    </div>
+    <div class="lesson-grid" id="academy30Grid"></div>
+    <div class="lesson-viewer" id="lessonViewer30" hidden></div>
+  </section>
+
+  <!-- ============ MODERN JPMORGAN ============ -->
+  <section id="section-modern" class="section" data-section="modern">
+    <div class="section-header">
+      <h2>Modern JPMorgan Chase</h2>
+      <p class="section-lede">A clear distinction between J. Pierpont Morgan and the modern firm that carries his name's legacy.</p>
+    </div>
+    <div class="panel panel--warn">
+      <div class="panel-body">
+        <p><strong>IMPORTANT DISTINCTION:</strong> J. Pierpont Morgan (1837–1913) and JPMorgan Chase & Co. are not the same entity. The modern firm traces part of its heritage to predecessor institutions associated with Morgan's era, but its current structure, operations, and governance are the product of a long, complex evolution.</p>
+      </div>
+    </div>
+    <div class="panel-grid" id="modernGrid"></div>
+  </section>
+
+  <!-- ============ CAREER LAB ============ -->
+  <section id="section-career" class="section" data-section="career">
+    <div class="section-header">
+      <h2>Investment Banking Career Lab</h2>
+      <p class="section-lede">Explore the roles, skills, and paths inside modern investment banking.</p>
+    </div>
+    <div class="career-grid" id="careerGrid"></div>
+    <div class="panel">
+      <div class="panel-head"><h3>Could You Become an Investment Banker?</h3></div>
+      <div class="panel-body">
+        <div id="careerQuiz"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GLOSSARY ============ -->
+  <section id="section-glossary" class="section" data-section="glossary">
+    <div class="section-header">
+      <h2>Glossary</h2>
+      <p class="section-lede">Search and filter key financial terms.</p>
+    </div>
+    <div class="glossary-controls">
+      <input type="search" id="glossarySearch" placeholder="Search terms…" aria-label="Search glossary">
+      <div class="chip-row" id="glossaryChips">
+        <button class="chip active" data-cat="all">ALL</button>
+        <button class="chip" data-cat="banking">BANKING</button>
+        <button class="chip" data-cat="investing">INVESTING</button>
+        <button class="chip" data-cat="accounting">ACCOUNTING</button>
+        <button class="chip" data-cat="markets">MARKETS</button>
+        <button class="chip" data-cat="corporate">CORPORATE FINANCE</button>
+      </div>
+    </div>
+    <div class="glossary-list" id="glossaryList"></div>
+  </section>
+
+  <!-- ============ QUIZ CENTER ============ -->
+  <section id="section-quiz" class="section" data-section="quiz">
+    <div class="section-header">
+      <h2>Quiz Center</h2>
+      <p class="section-lede">Test your knowledge. Earn XP. Build mastery.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Choose a Mode</h3></div>
+      <div class="panel-body">
+        <div class="mode-grid">
+          <button class="mode-btn" data-mode="10"><span>10 Questions</span><small>Quick quiz</small></button>
+          <button class="mode-btn" data-mode="25"><span>25 Questions</span><small>Deep dive</small></button>
+          <button class="mode-btn" data-mode="50"><span>50 Questions</span><small>Marathon</small></button>
+          <button class="mode-btn" data-mode="random"><span>Random Quiz</span><small>Surprise mix</small></button>
+          <button class="mode-btn" data-mode="category"><span>Category Quiz</span><small>Focused</small></button>
+          <button class="mode-btn" data-mode="final"><span>Final Exam</span><small>The test</small></button>
+        </div>
+        <div id="quizCategoryPicker" hidden>
+          <label for="quizCategorySelect">Category</label>
+          <select id="quizCategorySelect">
+            <option value="life">Life</option>
+            <option value="character">Character</option>
+            <option value="power">Power</option>
+            <option value="banking">Banking</option>
+            <option value="deals">Major Deals</option>
+            <option value="panic">Panic of 1907</option>
+            <option value="modern">Modern JPMorgan</option>
+            <option value="career">Investment Banking</option>
+          </select>
+          <button class="btn btn-gold" id="quizStartCategory">Start</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel" id="quizPanel" hidden>
+      <div class="panel-head"><h3 id="quizHeader">Question</h3><span class="panel-hint" id="quizCounter"></span></div>
+      <div class="panel-body" id="quizBody"></div>
+    </div>
+    <div class="panel" id="quizResults" hidden>
+      <div class="panel-head"><h3>Results</h3></div>
+      <div class="panel-body" id="quizResultsBody"></div>
+    </div>
+  </section>
+
+  <!-- ============ MASTERY ============ -->
+  <section id="section-mastery" class="section" data-section="mastery">
+    <div class="section-header">
+      <h2>Master Morgan Score</h2>
+      <p class="section-lede">A composite score across seven dimensions of understanding.</p>
+    </div>
+    <div class="mastery-hero">
+      <div class="mastery-ring" id="masteryRing"><span id="masteryScoreBig">0</span><small>/ 100</small></div>
+      <div class="mastery-level" id="masteryLevelBig">BEGINNER</div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Breakdown</h3></div>
+      <div class="panel-body">
+        <div class="mastery-breakdown" id="masteryBreakdown"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MORGAN AI ============ -->
+  <section id="section-morganai" class="section" data-section="morganai">
+    <div class="section-header">
+      <h2>Morgan AI</h2>
+      <p class="section-lede">An educational tutor with curated responses. Not connected to a live AI in this version.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+        <div class="chat" id="chatWindow"></div>
+        <div class="chat-suggestions" id="chatSuggestions">
+          <button data-q="Explain underwriting.">Explain underwriting.</button>
+          <button data-q="Why was Morgan powerful?">Why was Morgan powerful?</button>
+          <button data-q="Explain the Panic of 1907.">Explain the Panic of 1907.</button>
+          <button data-q="What is M&A?">What is M&A?</button>
+          <button data-q="How does an investment bank make money?">How does an investment bank make money?</button>
+          <button data-q="Was Morgan a good person?">Was Morgan a good person?</button>
+        </div>
+        <form class="chat-form" id="chatForm">
+          <input type="text" id="chatInput" placeholder="Ask Morgan AI…" autocomplete="off">
+          <button class="btn btn-gold" type="submit">ASK</button>
+        </form>
+        <div class="api-slot" id="apiSlot">
+          <strong>API integration area (future):</strong> Place server-side endpoints here. Do not embed secret keys in frontend code.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOURCES ============ -->
+  <section id="section-sources" class="section" data-section="sources">
+    <div class="section-header">
+      <h2>Sources</h2>
+      <p class="section-lede">Credible references for further study. No fabricated citations.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+        <ul class="source-list">
+          <li><strong>Ron Chernow — <em>The House of Morgan</em></strong> — Widely cited narrative history of the Morgan banking dynasty.</li>
+          <li><strong>JPMorgan Chase — Historical Materials</strong> — Public historical summaries published by the firm (consulted as primary-adjacent source; this project is independent).</li>
+          <li><strong>Federal Reserve — Historical Resources</strong> — Materials on the Panic of 1907 and the founding of the Federal Reserve System.</li>
+          <li><strong>Library of Congress</strong> — Archival and photographic records.</li>
+          <li><strong>U.S. Government Archives</strong> — Congressional and regulatory documents.</li>
+          <li><strong>Encyclopaedia Britannica</strong> — Overview entries on Morgan, railroads, and American finance.</li>
+          <li><strong>Academic Historical Sources</strong> — Peer-reviewed scholarship on Gilded Age and Progressive Era finance.</li>
+        </ul>
+        <p class="source-note">Where a claim cannot be confidently verified, it is labeled <em>"Historical verification required."</em></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================== SEARCH MODAL ================== -->
+<div class="modal" id="searchModal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel">
+    <div class="modal-head">
+      <h3>Search the Archive</h3>
+      <button class="icon-btn" data-close aria-label="Close search"><i data-lucide="x"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="search" id="globalSearch" placeholder="Search lessons, people, events, concepts, deals…" autocomplete="off" autofocus>
+      <div class="search-results" id="searchResults">
+        <p class="empty-state">Start typing to search.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================== SETTINGS MODAL ================== -->
+<div class="modal" id="settingsModal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel modal-panel--sm">
+    <div class="modal-head">
+      <h3>Settings</h3>
+      <button class="icon-btn" data-close aria-label="Close settings"><i data-lucide="x"></i></button>
+    </div>
+    <div class="modal-body">
+      <label class="switch-row">
+        <span>Dark mode</span>
+        <input type="checkbox" id="setDark" checked>
+      </label>
+      <label class="switch-row">
+        <span>Sound effects</span>
+        <input type="checkbox" id="setSound">
+      </label>
+      <label class="switch-row">
+        <span>Animations</span>
+        <input type="checkbox" id="setAnim" checked>
+      </label>
+      <hr>
+      <button class="btn btn-danger" id="resetProgress">Reset all progress</button>
+      <p class="muted">This cannot be undone. Confirmation required.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================== TOASTS ================== -->
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<!-- ================== SCROLL TOP ================== -->
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i data-lucide="arrow-up"></i></button>
+
+<script src="script.js" defer></script>
+</body>
+</html>
+    
